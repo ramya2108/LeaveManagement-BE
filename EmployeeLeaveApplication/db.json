@@ -24,7 +24,9 @@
       "password": "222222",
       "email": "Mohan@test.com",
       "roleId": 2,
-      "managerId": 1
+      "managerId": 1,
+      "balance": 9,
+      "totalLeaves": 12
     },
     {
       "id": 3,
@@ -32,36 +34,39 @@
       "password": "333333",
       "email": "Shyam@test.com",
       "roleId": 2,
-      "managerId": 1
+      "managerId": 1,
+      "balance": 11,
+      "totalLeaves": 12
     }
   ],
   "leaves": [
     {
       "id": 1,
-      "userId": 1,
+      "userId": 2,
       "startDate": "2025-11-03T00:00:00",
       "endDate": "2025-11-05T00:00:00",
       "days": 3,
       "status": "Approved",
-      "actionedBy": 1
+      "actionedBy": 1,
+      "balance": null
     },
     {
       "id": 2,
-      "userId": 1,
-      "startDate": "2025-10-31T11:48:27.872Z",
-      "endDate": "2025-10-31T11:48:27.872Z",
+      "userId": 3,
+      "startDate": "2025-11-01",
+      "endDate": "2025-11-01",
       "days": 1,
       "status": "Approved",
-      "actionedBy": 2
+      "actionedBy": null
     },
     {
       "id": 3,
-      "userId": 2,
-      "startDate": "2025-10-31T12:42:45.03Z",
-      "endDate": "2025-11-03T12:42:45.03Z",
-      "days": 4,
+      "userId": 3,
+      "startDate": "2025-11-03",
+      "endDate": "2025-11-03",
+      "days": 1,
       "status": "Pending",
       "actionedBy": null
-    }
+    }   
   ]
 }

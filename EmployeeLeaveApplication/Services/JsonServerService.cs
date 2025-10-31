@@ -1,4 +1,5 @@
 ﻿using EmployeeLeaveApplication.Models;
+using Microsoft.Exchange.WebServices.Data;
 using System.Net;
 
 namespace EmployeeLeaveApplication.Services
@@ -16,7 +17,7 @@ namespace EmployeeLeaveApplication.Services
         public async Task<List<User>> GetUsersAsync()
         {
             var users = await _httpClient.GetFromJsonAsync<List<User>>($"{BaseUrl}/users");
-            return users ?? [];           
+            return users ?? [];
         }
 
         public async Task<User?> GetUserAsync(int id)
@@ -55,14 +56,46 @@ namespace EmployeeLeaveApplication.Services
 
         public async Task<string> UpdateLeaveAsync(Leave leave)
         {
+            var user = await GetUserAsync(leave.UserId);
+            if (leave.Status == "Approved")
+            {
+                if (user == null)
+                {
+                    return "User not found.";
+                }
+                if (user.BalanceLeaves <= 0)
+                {
+                    return "You have exhausted your available leaves.";
+                }
+            }
+
             var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/leaves/{leave.Id}", leave);
+
             if (response.IsSuccessStatusCode)
             {
+                if (leave.Status == "Approved" && user != null)
+                {
+                    user.BalanceLeaves = user.BalanceLeaves - 1;
+                    _ = UpdateUserAsync(user);
+                }
                 return "Leave request updated successfully.";
             }
             else
             {
                 return "Failed to update leave request.";
+            }
+        }
+
+        public async Task<bool> UpdateUserAsync(User user)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/users/{user.Id}", user);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -73,7 +106,7 @@ namespace EmployeeLeaveApplication.Services
                 var response = await _httpClient.GetAsync($"{BaseUrl}/leaves/{id}");
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<Leave>();                    
+                    return await response.Content.ReadFromJsonAsync<Leave>();
                 }
                 else if (response.StatusCode == HttpStatusCode.NotFound)
                 {
@@ -85,6 +118,29 @@ namespace EmployeeLeaveApplication.Services
                 throw new HttpRequestException("Error fetching user data", ex);
             }
             return null;
+        }
+
+        public async Task<List<Leave>> GetLeaveRequestOfUserAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"{BaseUrl}/leaves");
+                if (response.IsSuccessStatusCode)
+                {
+                    var leaves = await response.Content.ReadFromJsonAsync<List<Leave>>();
+                    var userLeaves = leaves?.Where(l => l.UserId == id).ToList() ?? new List<Leave>();
+                    return userLeaves;
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return [];
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException("Error fetching user data", ex);
+            }
+            return [];
         }
     }
 }

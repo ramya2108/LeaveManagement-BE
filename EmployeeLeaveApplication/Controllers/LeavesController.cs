@@ -46,6 +46,6 @@ namespace EmployeeLeaveApplication.Controllers
             leave.Status = leaveRequest.Status;
             var response = await _jsonServerService.UpdateLeaveAsync(leave);
             return Ok(response);
-        }  
+        }        
     }
 }

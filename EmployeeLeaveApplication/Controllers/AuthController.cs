@@ -49,10 +49,6 @@ namespace EmployeeLeaveApplication.Controllers
                 Subject = new ClaimsIdentity(
                 [
                     new Claim("Role", userData.Role?.Name ?? string.Empty)
-                    //new Claim(ClaimTypes.Email, userData.Email ?? string.Empty),
-                    //new Claim(ClaimTypes.GivenName, userData.FullName ?? string.Empty),
-                    //new Claim(ClaimTypes.Name, userData.Role?.Name ?? string.Empty),
-                    //new Claim(ClaimTypes.NameIdentifier, userData.Id.ToString() ?? string.Empty)
                     ]),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(

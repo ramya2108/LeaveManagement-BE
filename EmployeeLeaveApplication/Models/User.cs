@@ -10,5 +10,7 @@
         public int RoleId { get; set; }
         public Role? Role { get; set; }
         public int? ManagerId { get; set; }
+        public int BalanceLeaves { get; set; }
+        public int TotalLeaves { get; set; }
     }
 }

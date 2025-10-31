@@ -9,5 +9,6 @@
         public decimal Days { get; set; }
         public string? Status { get; set; }
         public int? ActionedBy { get; set; }
+        public int? Balance { get; set; }
     }
 }
