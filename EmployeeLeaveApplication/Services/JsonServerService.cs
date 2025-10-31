@@ -20,11 +20,16 @@ namespace EmployeeLeaveApplication.Services
             return users ?? [];
         }
 
-        public async Task<User?> GetUserAsync(int id)
+        public async Task<User?> GetUserAsync(int id, bool fetchRoles)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/users/{id}?_expand=role");
+                HttpResponseMessage response;
+                if (fetchRoles)
+                    response = await _httpClient.GetAsync($"{BaseUrl}/users/{id}?_expand=role");
+                else
+                    response = await _httpClient.GetAsync($"{BaseUrl}/users/{id}");
+                
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadFromJsonAsync<User>();
@@ -56,8 +61,8 @@ namespace EmployeeLeaveApplication.Services
 
         public async Task<string> UpdateLeaveAsync(Leave leave)
         {
-            var user = await GetUserAsync(leave.UserId);
-            if (leave.Status == "Approved")
+            var user = await GetUserAsync(leave.UserId, false);
+            if (leave.LeaveStatusId == 2)
             {
                 if (user == null)
                 {
@@ -73,9 +78,9 @@ namespace EmployeeLeaveApplication.Services
 
             if (response.IsSuccessStatusCode)
             {
-                if (leave.Status == "Approved" && user != null)
+                if (leave.LeaveStatusId == 2 && user != null)
                 {
-                    user.BalanceLeaves = user.BalanceLeaves - 1;
+                    user.BalanceLeaves = user.BalanceLeaves - 1;                    
                     _ = UpdateUserAsync(user);
                 }
                 return "Leave request updated successfully.";
@@ -141,6 +146,12 @@ namespace EmployeeLeaveApplication.Services
                 throw new HttpRequestException("Error fetching user data", ex);
             }
             return [];
+        }
+
+        public async Task<List<LeaveStatus>> GetLeaveTypessAsync()
+        {
+            var response = await _httpClient.GetFromJsonAsync<List<LeaveStatus>>($"{BaseUrl}/leaveStatus");
+            return response?.Where(x=>x.Id != 1).ToList() ?? [];
         }
     }
 }

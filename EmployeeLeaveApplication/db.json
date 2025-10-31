@@ -9,6 +9,20 @@
       "name": "Employee"
     }
   ],
+  "leaveStatus": [
+    {
+      "id": 1,
+      "name": "Pending"
+    },
+    {
+      "id": 2,
+      "name": "Approved"
+    },
+    {
+      "id": 3,
+      "name": "Rejected"
+    }
+  ],
   "users": [
     {
       "id": 1,
@@ -16,6 +30,7 @@
       "password": "111111",
       "email": "Ravi@test.com",
       "roleId": 1,
+      "role": null,
       "managerId": null
     },
     {
@@ -24,8 +39,9 @@
       "password": "222222",
       "email": "Mohan@test.com",
       "roleId": 2,
+      "role": null,
       "managerId": 1,
-      "balance": 9,
+      "balanceLeaves": 9,
       "totalLeaves": 12
     },
     {
@@ -34,8 +50,9 @@
       "password": "333333",
       "email": "Shyam@test.com",
       "roleId": 2,
+      "role": null,
       "managerId": 1,
-      "balance": 11,
+      "balanceLeaves": 11,
       "totalLeaves": 12
     }
   ],
@@ -46,9 +63,8 @@
       "startDate": "2025-11-03T00:00:00",
       "endDate": "2025-11-05T00:00:00",
       "days": 3,
-      "status": "Approved",
       "actionedBy": 1,
-      "balance": null
+      "leaveStatusId": 2
     },
     {
       "id": 2,
@@ -56,17 +72,17 @@
       "startDate": "2025-11-01",
       "endDate": "2025-11-01",
       "days": 1,
-      "status": "Approved",
-      "actionedBy": null
+      "actionedBy": null,
+      "leaveStatusId": 2
     },
     {
       "id": 3,
       "userId": 3,
-      "startDate": "2025-11-03",
-      "endDate": "2025-11-03",
+      "startDate": "2025-11-03T00:00:00",
+      "endDate": "2025-11-03T00:00:00",
       "days": 1,
-      "status": "Pending",
-      "actionedBy": null
-    }   
+      "actionedBy": 1,
+      "leaveStatusId": 2
+    }
   ]
 }

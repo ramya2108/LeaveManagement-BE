@@ -28,7 +28,7 @@ namespace EmployeeLeaveApplication.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login loginUser)
         {
-            var userData = await _jsonServerService.GetUserAsync(loginUser.UserId);
+            var userData = await _jsonServerService.GetUserAsync(loginUser.UserId, true);
 
             if (userData == null)
                 return Unauthorized("User not found");
