@@ -1,0 +1,67 @@
+{
+  "roles": [
+    {
+      "id": 1,
+      "name": "Manager"
+    },
+    {
+      "id": 2,
+      "name": "Employee"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "userName": "Ravi",
+      "password": "111111",
+      "email": "Ravi@test.com",
+      "roleId": 1,
+      "managerId": null
+    },
+    {
+      "id": 2,
+      "userName": "Mohan",
+      "password": "222222",
+      "email": "Mohan@test.com",
+      "roleId": 2,
+      "managerId": 1
+    },
+    {
+      "id": 3,
+      "userName": "Shyam",
+      "password": "333333",
+      "email": "Shyam@test.com",
+      "roleId": 2,
+      "managerId": 1
+    }
+  ],
+  "leaves": [
+    {
+      "id": 1,
+      "userId": 1,
+      "startDate": "2025-11-03T00:00:00",
+      "endDate": "2025-11-05T00:00:00",
+      "days": 3,
+      "status": "Approved",
+      "actionedBy": 1
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "startDate": "2025-10-31T11:48:27.872Z",
+      "endDate": "2025-10-31T11:48:27.872Z",
+      "days": 1,
+      "status": "Approved",
+      "actionedBy": 2
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "startDate": "2025-10-31T12:42:45.03Z",
+      "endDate": "2025-11-03T12:42:45.03Z",
+      "days": 4,
+      "status": "Pending",
+      "actionedBy": null
+    }
+  ]
+}
